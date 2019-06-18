@@ -40,7 +40,7 @@
 
 			<div class="form-group">
 				<label>Password: </label>
-				<input type="password" class="form-control" th:field="*{password}"/>
+				<input type="password" class="form-control" th:field="*{password}" placeholder="password"/>
 				<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error" style="color: red; font-weight: bold; size: 24px">Password Error></div>
 
 			</div>

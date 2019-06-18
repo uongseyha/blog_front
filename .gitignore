@@ -167,3 +167,5 @@ target/classes/edu/mum/cs544/User.class
 target/classes/edu/mum/cs544/UserController.class
 target/classes/templates/login.html
 target/classes/templates/user/addUser.html
+target/classes/templates/index.html
+target/classes/templates/login.html
