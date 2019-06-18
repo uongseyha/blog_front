@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class UserController {
     @Autowired
@@ -15,8 +17,14 @@ public class UserController {
 
     //==== 1. User List Form ====
     @RequestMapping(value={"/user"})
-    public String getAll(Model model){
-        model.addAttribute("users",userService.getAll());
+    public String getAll(Model model, HttpSession session){
+
+        User u= (User)session.getAttribute("user");
+        if (u.getEmail().equals("admin@mail.com"))
+            model.addAttribute("users",userService.getAll());
+        else
+            model.addAttribute("users",userService.get(u.getId()));
+
         return "user/userList";
     }
 

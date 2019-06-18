@@ -16,6 +16,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		//SpringApplication.run(Client.class, args);
+		//System.setProperty("server.servlet.context-path", "/login");
 		SpringApplication.run(Main.class, args);
 
 
