@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8">
+<title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">UMS</title>
+<th:block th:replace="fragments/style"></th:block>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<!--  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  -->
+</head>
+<body>
+<!-- 	<nav class="navbar navbar-default"
+		th:replace="fragments/adminheader :: adminHeader"></nav> -->
+
+<nav class="navbar navbar-default" xmlns:th="http://wwww.thymeleaf.org" th:fragment="header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/admin">MUMSched</a>
+		</div>
+		<ul class="nav navbar-nav">
+			<li><a href="/student">Student</a></li>
+			<li><a href="/studentRegistration">Student Registration</a></li>
+			<li><a href="/faculty">Faculty</a></li>
+			<li><a href="/facultyCourse">FacultyCourse</a></li>
+			<li><a href="/users">User</a></li>
+			<li><a href="/showentries">Entry</a></li>
+			<li><a href="/show-blocks">Block</a></li>
+			<li><a href="/sections">Section</a></li>
+			<li><a href="/course">Course</a></li>
+			<li><a href="/entry-blocks">Entry Block</a></li>
+			<li><a href="/login">Logout</a></li>
+		</ul>
+	</div>
+</nav>
+
+	<div class="container" layout:fragment="content">
+		<div class="alert alert-info">
+			<h2>Welcome <span th:text="${admin.userName}" style="color:green"></span>! You logged as admin account</h2>
+			<hr />
+		</div>
+		
+	</div>
+	
+
+	<!--Footer-->
+	<footer class="page-footer" th:replace="fragments/footer"></footer>
+	<!--/Footer-->
+
+	<th:block th:replace="fragments/script"></th:block>
+
+	<th:block layout:fragment="myScript">
+
+	</th:block>
+</body>
+</html>
