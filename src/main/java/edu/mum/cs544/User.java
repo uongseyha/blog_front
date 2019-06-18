@@ -1,9 +1,11 @@
 package edu.mum.cs544;
 
+import org.springframework.lang.NonNull;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class User {
@@ -12,11 +14,7 @@ public class User {
 	private Long id;
 	private String firstName;
 	private String lastName;
-
-	@NotBlank
 	private String email;
-
-	@NotBlank
 	private String password;
 
 	public User(){}

@@ -3,9 +3,12 @@ package edu.mum.cs544;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.validation.Valid;
 
 @Controller
 public class LoginController {
@@ -19,21 +22,8 @@ public class LoginController {
 	}
 
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String addLogin(@ModelAttribute("loginForm") User user, Model model) {
-//		List<User> users=userService.getUsers();
-//		for(User u: users) {
-//			if(u.getUserName().equals(loginForm.getUserName()) && u.getUserPassword().equals(loginForm.getPassword())) {
-//				if(u.getRole().getId()==Long.valueOf(1)) {
-//					model.addAttribute("admin", userService.getUserByUserId(u.getId()));
-//					return "home/admin";
-//				}else if(u.getRole().getId()==Long.valueOf(2)) {
-//					model.addAttribute("faculty", userService.getUserByUserId(u.getId()));
-//					return "home/faculty";
-//				}
-//					model.addAttribute("student", userService.getUserByUserId(u.getId()));
-//					return "home/student";
-//			}
-//		}
+	public String addLogin(@ModelAttribute("loginForm") User user,  Model model) {
+
 		User u=userService.isCorrectUser(user.getEmail(), user.getPassword());
 		if (u!=null){
 
