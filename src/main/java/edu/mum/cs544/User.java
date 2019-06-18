@@ -5,6 +5,7 @@ import org.springframework.lang.NonNull;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -14,7 +15,11 @@ public class User {
 	private Long id;
 	private String firstName;
 	private String lastName;
+
+	@NotEmpty
 	private String email;
+
+	@NotEmpty
 	private String password;
 
 	public User(){}

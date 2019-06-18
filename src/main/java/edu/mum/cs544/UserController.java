@@ -3,12 +3,14 @@ package edu.mum.cs544;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Controller
 public class UserController {
@@ -37,7 +39,9 @@ public class UserController {
 
     //==== 3. Save add new User ====
     @RequestMapping(value={"/user/save"}, method = RequestMethod.POST)
-    public String saveUser(@ModelAttribute("newUser") User user, Model model) {
+    public String saveUser(@ModelAttribute("newUser") @Valid User user,BindingResult result, Model model) {
+
+        if (result.hasErrors()) return "user/addUser";
 
         userService.add(user);
         return "redirect:/user";
