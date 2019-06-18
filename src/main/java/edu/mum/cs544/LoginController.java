@@ -36,8 +36,14 @@ public class LoginController {
 //		}
 		User u=userService.isCorrectUser(user.getEmail(), user.getPassword());
 		if (u!=null){
+
+			if (u.getEmail().equals("admin@mail.com")){
+				model.addAttribute("admin", u);
+				return "home/admin";
+			}
+
 			model.addAttribute("user", u);
-			return "redirect:/";
+			return "home/user";
 		}
 
 		model.addAttribute("invalid", true);

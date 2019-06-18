@@ -16,29 +16,24 @@
 </head>
 <body>
 <!-- 	<nav class="navbar navbar-default"
-		th:replace="fragments/header :: facultyHeader"></nav> -->
+		th:replace="fragments/adminheader :: adminHeader"></nav> -->
 
-	<nav class="navbar navbar-default" xmlns:th="http://wwww.thymeleaf.org" th:fragment="header">
+<nav class="navbar navbar-default" xmlns:th="http://wwww.thymeleaf.org" th:fragment="header">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="/faculty">MUMSched</a>
+			<a class="navbar-brand" href="/user">Blog</a>
 		</div>
 		<ul class="nav navbar-nav">
-
-			<li><a href="/faculty">Faculty</a></li>
-			<li><a href="/facultyCourse">FacultyCourse</a></li>
-			<li><a href="/showentries">Entry</a></li>
-			<li><a href="/show-blocks">Block</a></li>
-			<li><a href="/sections">Section</a></li>
+			<li><a href="/post">Post</a></li>
 			<li><a href="/login">Logout</a></li>
+
 		</ul>
 	</div>
 </nav>
-	
 
 	<div class="container" layout:fragment="content">
 		<div class="alert alert-info">
-			<h2>Welcome <span th:text="${faculty.userName}" style="color:green"></span>! You logged as faculty account</h2>
+			<h2>Welcome <span th:text="${user.firstName}" style="color:green"></span>! You logged as normal account</h2>
 			<hr />
 		</div>
 		

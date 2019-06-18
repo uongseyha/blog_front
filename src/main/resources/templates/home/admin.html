@@ -21,27 +21,20 @@
 <nav class="navbar navbar-default" xmlns:th="http://wwww.thymeleaf.org" th:fragment="header">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="/admin">MUMSched</a>
+			<a class="navbar-brand" href="/admin">Blog</a>
 		</div>
 		<ul class="nav navbar-nav">
-			<li><a href="/student">Student</a></li>
-			<li><a href="/studentRegistration">Student Registration</a></li>
-			<li><a href="/faculty">Faculty</a></li>
-			<li><a href="/facultyCourse">FacultyCourse</a></li>
-			<li><a href="/users">User</a></li>
-			<li><a href="/showentries">Entry</a></li>
-			<li><a href="/show-blocks">Block</a></li>
-			<li><a href="/sections">Section</a></li>
-			<li><a href="/course">Course</a></li>
-			<li><a href="/entry-blocks">Entry Block</a></li>
+			<li><a href="/user">User</a></li>
+			<li><a href="/post">Post</a></li>
 			<li><a href="/login">Logout</a></li>
+
 		</ul>
 	</div>
 </nav>
 
 	<div class="container" layout:fragment="content">
 		<div class="alert alert-info">
-			<h2>Welcome <span th:text="${admin.userName}" style="color:green"></span>! You logged as admin account</h2>
+			<h2>Welcome <span th:text="${admin.firstName}" style="color:green"></span>! You logged as admin account</h2>
 			<hr />
 		</div>
 		
