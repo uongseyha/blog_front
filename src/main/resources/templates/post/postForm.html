@@ -36,27 +36,23 @@
 			</div>
 			<div class="form-group">
 				<label>Text: </label>
-				<input type="text" class="form-control" th:field="*{text}" placeholder="Enter the body text"/>
+				<textarea rows="3" cols="80" class="form-control" th:field="*{text}" placeholder="Enter the body text">
+				</textarea>
 				<div th:if="${#fields.hasErrors('text')}" th:errors="*{text}" class="error" style="color: red; font-weight: bold; size: 24px"></div>
 			</div>
 			<div class="form-group">
 				<label>Categories: </label>
-<!--				<select name="categories" multiple>-->
-<!--					<option value="volvo">Volvo</option>-->
-<!--					<option value="saab">Saab</option>-->
-<!--					<option value="opel">Opel</option>-->
-<!--					<option value="audi">Audi</option>-->
-<!--				</select>-->
-				<input type="text" class="form-control" th:field="*{categories}" placeholder="Enter category"/>
+				<div th:each="categ, itemStat : ${categoryList}" >
+					<input type="checkbox" th:text="${categ}" th:value="${categ}" th:field="*{categories}">
+				</div>
 			</div>
 
 			<div class="pull-right">
-				<a href="/user" class="btn btn-default">Cancel</a>
+				<a href="/posts/me" class="btn btn-default">Cancel</a>
 				<button type="submit" class="btn btn-primary" >Save</button>
 			</div>
 
 		</form>
-	</div>
 	
 	<!--Footer-->
 	<footer class="page-footer" th:replace="fragments/footer"></footer>

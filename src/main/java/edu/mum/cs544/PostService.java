@@ -12,8 +12,8 @@ import java.util.List;
 
 @Service
 public class PostService implements IPostService {
-    private final String POSTS_BY_USERID_URL = "http://localhost:8282/users/{userId}/posts";
-    private final String POSTS_URL = "http://localhost:8282/posts";
+    private final String POSTS_BY_USERID_URL = "http://localhost:8282/api/users/{userId}/posts";
+    private final String POSTS_URL = "http://localhost:8282/api/posts";
     private final String PATH_ID = "/{id}";
 
     @Autowired

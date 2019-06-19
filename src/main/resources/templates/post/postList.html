@@ -49,7 +49,7 @@
             </td>
             <td>
                 <form>
-                    <a class="btn btn-primary" th:href="@{'/posts/' + ${post.id} + '/comments/add'}">Comment</a>
+                    <a class="btn btn-primary" th:href="@{'/posts/' + ${post.id} + '/comments'}">Comment</a>
                     <a class="btn btn-warning" th:href="@{'/posts/edit/' + ${post.id}}" th:if="${canEditAndDelete}">Edit</a>
                     <span>
 							<a class="btn btn-danger" th:href="@{'/posts/delete/' + ${post.id}}" th:if="${canEditAndDelete}"

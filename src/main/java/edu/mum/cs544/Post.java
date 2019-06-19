@@ -18,7 +18,7 @@ public class Post {
     @Lob
     private String text;
     @ElementCollection
-    private List<String> categories;
+    private List<Category> categories;
     private Long userId;
 
     public Post() {
@@ -65,11 +65,15 @@ public class Post {
         this.text = text;
     }
 
-    public List<String> getCategories() {
-        return Collections.unmodifiableList(categories);
+    public List<Category> getCategories() {
+        return categories;
     }
 
-    public boolean addCategory(String category) {
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public boolean addCategory(Category category) {
         return this.categories.add(category);
     }
 

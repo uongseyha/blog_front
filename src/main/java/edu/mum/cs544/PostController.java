@@ -1,5 +1,6 @@
 package edu.mum.cs544;
 
+import com.github.javafaker.Cat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class PostController {
@@ -48,13 +51,15 @@ public class PostController {
         if (session.getAttribute("user") == null)
             return "redirect:/login";
 
-        if (!model.containsAttribute("post"))
+        if (!model.containsAttribute("post")) {
             model.addAttribute("post", new Post());
+            model.addAttribute("categoryList", Category.values());
+        }
         return "post/postForm";
     }
 
     @PostMapping("/posts/save")
-    public String savePost(@Valid Post post, BindingResult result, RedirectAttributes attr, HttpSession session) {
+    public String savePost(@Valid @ModelAttribute Post post, BindingResult result, RedirectAttributes attr, HttpSession session) {
         if (result.hasErrors()) {
             attr.addFlashAttribute("org.springframework.validation.BindingResult.post", result);
             attr.addFlashAttribute("post", post);
@@ -79,6 +84,7 @@ public class PostController {
 
         Post post = postService.get(id);
         model.addAttribute("post", post);
+        model.addAttribute("categoryList", Category.values());
         return "post/postForm";
     }
 
