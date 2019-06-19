@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">Posts</title>
+    <th:block th:replace="fragments/style"></th:block>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-default"
+     th:replace="fragments/header :: header"></nav>
+
+<div class="container" layout:fragment="content">
+    <!-- <h1>Render content here!!!</h1> -->
+    <div class="alert alert-info">
+        <h2>Post List</h2>
+        <hr />
+        <a class="btn btn-primary" href="/posts/add">Create New Post</a>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Text</th>
+            <th>Category</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody th:each="post : ${posts}">
+        <tr>
+            <td th:text="${post.id}"></td>
+            <td th:text="${post.title}"></td>
+            <th th:text="${post.description}"></th>
+            <td th:text="${post.text}"></td>
+            <td>
+                <table>
+                    <tr th:each="cat : ${post.categories}">
+                        <td th:text="${cat}"></td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <form>
+                    <a class="btn btn-primary" th:href="@{'/posts/' + ${post.id} + '/comments/add'}">Comment</a>
+                    <a class="btn btn-warning" th:href="@{'/posts/edit/' + ${post.id}}" th:if="${canEditAndDelete}">Edit</a>
+                    <span>
+							<a class="btn btn-danger" th:href="@{'/posts/delete/' + ${post.id}}" th:if="${canEditAndDelete}"
+                               onclick="return confirm('Are you sure?')">Remove</a>
+						</span>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<!--Footer-->
+<footer class="page-footer" th:replace="fragments/footer"></footer>
+<!--/Footer-->
+
+<th:block th:replace="fragments/script"></th:block>
+
+<th:block layout:fragment="myScript">
+
+</th:block>
+</body>
+</html>
