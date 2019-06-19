@@ -49,9 +49,10 @@
             </td>
             <td>
                 <form>
-                    <a class="btn btn-warning" th:href="@{'/posts/edit/' + ${post.id}}">Edit</a>
+                    <a class="btn btn-primary" th:href="@{'/posts/' + ${post.id} + '/comments'}">Comment</a>
+                    <a class="btn btn-warning" th:href="@{'/posts/edit/' + ${post.id}}" th:if="${canEditAndDelete}">Edit</a>
                     <span>
-							<a class="btn btn-danger" th:href="@{'/posts/delete/' + ${post.id}}"
+							<a class="btn btn-danger" th:href="@{'/posts/delete/' + ${post.id}}" th:if="${canEditAndDelete}"
                                onclick="return confirm('Are you sure?')">Remove</a>
 						</span>
                 </form>

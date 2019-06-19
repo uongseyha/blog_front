@@ -12,8 +12,9 @@ import java.util.List;
 
 @Service
 public class PostService implements IPostService {
-    private final String POSTS_BY_USERID_URL = "http://localhost:8282/users/{userId}/posts";
-    private final String POSTS_URL = "http://localhost:8282/posts";
+    private final String POSTS_BY_USERID_URL = "http://localhost:8282/api/users/{userId}/posts";
+    private final String POSTS_URL = "http://localhost:8282/api/posts";
+    private final String PATH_ID = "/{id}";
 
     @Autowired
     private RestTemplate restTemplate;
@@ -40,9 +41,18 @@ public class PostService implements IPostService {
     }
 
     @Override
+    public Post get(int postId) {
+        return restTemplate.getForObject(POSTS_URL + PATH_ID, Post.class, postId);
+    }
+
+    @Override
     public Post add(long userId, Post post) {
         URI uri = restTemplate.postForLocation(POSTS_BY_USERID_URL, post, userId);
-        System.out.println(uri.toString());
         return restTemplate.getForObject(uri, Post.class);
+    }
+
+    @Override
+    public void delete(int id) {
+        restTemplate.delete(POSTS_URL+PATH_ID, id);
     }
 }

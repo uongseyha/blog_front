@@ -3,11 +3,13 @@ package edu.mum.cs544;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Controller
 public class LoginController {
@@ -21,7 +23,9 @@ public class LoginController {
 	}
 
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String addLogin(@ModelAttribute("loginForm") User user, Model model, HttpSession session) {
+	public String addLogin(@ModelAttribute("loginForm") @Valid User user, BindingResult result, Model model, HttpSession session) {
+
+		if (result.hasErrors()) return "/login";
 
 		User u=userService.isCorrectUser(user.getEmail(), user.getPassword());
 		if (u!=null){
