@@ -22,7 +22,9 @@ public class UserController {
     public String getAll(Model model, HttpSession session){
 
         User u= (User)session.getAttribute("user");
-        if (u.getEmail().equals("admin@mail.com"))
+        if (u == null)
+            return "redirect:/login";
+        else if (u.getEmail().equals("admin@mail.com"))
             model.addAttribute("users",userService.getAll());
         else
             model.addAttribute("users",userService.get(u.getId()));
