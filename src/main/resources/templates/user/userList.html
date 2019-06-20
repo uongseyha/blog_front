@@ -21,7 +21,7 @@
 		<div class="alert alert-info">
 			<h2>User List</h2>
 			<hr />
-			<a class="btn btn-primary" href="/user/add">Create New User</a>
+			<a class="btn btn-primary" href="/user/add" th:if="${canEditAndDelete}">Create New User</a>
 		</div>
 		<table class="table table-striped">
 			<thead>
@@ -41,9 +41,9 @@
 					<td th:text="${user.email}"></td>
 					<td>
 						<form>
-							<a class="btn btn-warning" th:href="@{'/user/edit/' + ${user.id}}">Edit</a>
+							<a class="btn btn-warning" th:href="@{'/user/edit/' + ${user.id}}" >Edit</a>
 							<span>
-							<a class="btn btn-danger" th:href="@{'/user/delete/' + ${user.id}}"
+							<a class="btn btn-danger" th:href="@{'/user/delete/' + ${user.id}}" th:if="${canEditAndDelete}"
 							   onclick="return confirm('Are you sure?')">Remove</a>
 						</span>
 						</form>

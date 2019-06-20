@@ -1,5 +1,6 @@
-package edu.mum.cs544;
+package edu.mum.cs544.service;
 
+import edu.mum.cs544.model.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;

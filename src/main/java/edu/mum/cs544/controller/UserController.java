@@ -1,5 +1,7 @@
-package edu.mum.cs544;
+package edu.mum.cs544.controller;
 
+import edu.mum.cs544.service.IUserService;
+import edu.mum.cs544.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,10 +26,13 @@ public class UserController {
         User u= (User)session.getAttribute("user");
         if (u == null)
             return "redirect:/login";
-        else if (u.getEmail().equals("admin@mail.com"))
+        else if (u.getEmail().equals("admin@mail.com")){
             model.addAttribute("users",userService.getAll());
+            model.addAttribute("canEditAndDelete", true);
+        }
         else
             model.addAttribute("users",userService.get(u.getId()));
+
 
         return "user/userList";
     }
@@ -60,7 +65,10 @@ public class UserController {
 
     //=== 5. Save Edit ====
     @RequestMapping(value = "/user/edit/save", method = RequestMethod.POST)
-    public String SaveEditUser(@ModelAttribute("user") User user) {
+    public String SaveEditUser(@ModelAttribute("user") @Valid User user, BindingResult result) {
+
+        if (result.hasErrors()) return "redirect:/user/edit/" + user.getId();
+
         User entity= userService.get(user.getId());
         entity.setFirstName(user.getFirstName());
         entity.setLastName(user.getLastName());

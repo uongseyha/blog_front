@@ -1,9 +1,10 @@
-package edu.mum.cs544;
+package edu.mum.cs544.model;
+
+import edu.mum.cs544.model.Category;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Entity

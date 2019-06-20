@@ -1,4 +1,4 @@
-package edu.mum.cs544;
+package edu.mum.cs544.model;
 
 import java.util.Date;
 

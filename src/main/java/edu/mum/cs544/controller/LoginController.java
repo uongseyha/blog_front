@@ -1,5 +1,7 @@
-package edu.mum.cs544;
+package edu.mum.cs544.controller;
 
+import edu.mum.cs544.model.User;
+import edu.mum.cs544.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

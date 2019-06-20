@@ -1,5 +1,6 @@
-package edu.mum.cs544;
+package edu.mum.cs544.service;
 
+import edu.mum.cs544.model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -12,8 +13,8 @@ import java.util.List;
 
 @Service
 public class PostService implements IPostService {
-    private final String POSTS_BY_USERID_URL = "http://localhost:8282/api/users/{userId}/posts";
-    private final String POSTS_URL = "http://localhost:8282/api/posts";
+    private final String POSTS_BY_USERID_URL = "http://localhost:8080/api/users/{userId}/posts";
+    private final String POSTS_URL = "http://localhost:8080/api/posts";
     private final String PATH_ID = "/{id}";
 
     @Autowired

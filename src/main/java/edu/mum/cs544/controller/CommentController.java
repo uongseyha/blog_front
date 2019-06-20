@@ -1,8 +1,11 @@
-package edu.mum.cs544;
+package edu.mum.cs544.controller;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import edu.mum.cs544.model.Comment;
+import edu.mum.cs544.service.ICommentService;
+import edu.mum.cs544.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +36,10 @@ public class CommentController {
 
     //==== 2. Create new Comment Form ====
     @RequestMapping(value={"/comment/add"},method= RequestMethod.GET)
-    public String AddComment(@ModelAttribute("newcomment") Comment comment, Model model) {
+    public String AddComment(@ModelAttribute("newcomment") Comment comment, Model model, HttpSession session) {
+        if (session.getAttribute("user") == null)
+            return "redirect:/login";
+
         model.addAttribute("newComment", comment);
         return "comment/addComment";
     }
@@ -56,6 +62,9 @@ public class CommentController {
     //=== 4. Edit Form ====
     @RequestMapping(value = "/comment/edit/{id}")
     public String editEntry(@PathVariable int id, Model model, HttpSession session) {
+        if (session.getAttribute("user") == null)
+            return "redirect:/login";
+
         int postId = (int)session.getAttribute("post");
         long userId = ((User)session.getAttribute("user")).getId();
         Comment comment = commentService.getByUserIdAndPostIdAndCommentId(userId, postId, id);
@@ -81,6 +90,9 @@ public class CommentController {
     //=== 6. Delete ====
     @RequestMapping(value = "/comment/delete/{id}")
     public String deletecomment(@PathVariable int id, HttpSession session) {
+        if (session.getAttribute("user") == null)
+            return "redirect:/login";
+
         int postId = (int)session.getAttribute("post");
         long userId = ((User)session.getAttribute("user")).getId();
         commentService.delete(userId, postId, id);

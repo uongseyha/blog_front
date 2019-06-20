@@ -1,6 +1,9 @@
-package edu.mum.cs544;
+package edu.mum.cs544.controller;
 
-import com.github.javafaker.Cat;
+import edu.mum.cs544.model.Category;
+import edu.mum.cs544.service.IPostService;
+import edu.mum.cs544.model.Post;
+import edu.mum.cs544.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,8 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class PostController {
@@ -63,6 +64,7 @@ public class PostController {
         if (result.hasErrors()) {
             attr.addFlashAttribute("org.springframework.validation.BindingResult.post", result);
             attr.addFlashAttribute("post", post);
+            attr.addFlashAttribute("categoryList", Category.values());
             return "redirect:/posts/add";
         }
 
@@ -90,6 +92,9 @@ public class PostController {
 
     @GetMapping("/posts/delete/{id}")
     public String delete(@PathVariable int id, HttpSession session) {
+        if (session.getAttribute("user") == null)
+            return "redirect:/login";
+
         postService.delete(id);
         session.removeAttribute("post");
         User user = (User) session.getAttribute("user");
