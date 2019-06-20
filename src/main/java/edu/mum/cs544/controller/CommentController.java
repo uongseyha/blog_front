@@ -45,18 +45,23 @@ public class CommentController {
     public String AddComment(Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
             return "redirect:/login";
+
         int postId = (int)session.getAttribute("post");
-        model.addAttribute("postId", postId);
-        model.addAttribute("newComment", new Comment());
+        if (!model.containsAttribute("newComment")) {
+            model.addAttribute("postId", postId);
+            model.addAttribute("newComment", new Comment());
+        }
         return "comment/addComment";
     }
 
     //==== 3. Save add new Comment ====
     @RequestMapping(value={"/comment/save"}, method = RequestMethod.POST)
-    public String saveComment(@Valid Comment comment, Model model, HttpSession session, BindingResult result, RedirectAttributes attr) {
+    public String saveComment(@Valid Comment comment, BindingResult result, RedirectAttributes attr, Model model, HttpSession session) {
         if (result.hasErrors()) {
             attr.addFlashAttribute("org.springframework.validation.BindingResult.comment", result);
             attr.addFlashAttribute("newComment", comment);
+            int postId = (int)session.getAttribute("post");
+            attr.addFlashAttribute("postId", postId);
             return "redirect:/comment/add";
         }
         long userId = ((User)session.getAttribute("user")).getId();
@@ -82,7 +87,14 @@ public class CommentController {
 
     //=== 5. Save Edit ====
     @RequestMapping(value = "/comment/edit/save", method = RequestMethod.POST)
-    public String SaveEditComment(@Valid Comment comment, HttpSession session,BindingResult result, RedirectAttributes attr) {
+    public String SaveEditComment(@Valid Comment comment, BindingResult result, RedirectAttributes attr, HttpSession session) {
+        if (result.hasErrors()) {
+            attr.addFlashAttribute("org.springframework.validation.BindingResult.comment", result);
+            attr.addFlashAttribute("comment", comment);
+            int postId = (int)session.getAttribute("post");
+            attr.addFlashAttribute("postId", postId);
+            return "redirect:/comment/edit/" + comment.getId();
+        }
         int postId = (int)session.getAttribute("post");
         long userId = ((User)session.getAttribute("user")).getId();
         Comment entity= commentService.getByUserIdAndPostIdAndCommentId(userId, postId, comment.getId());
