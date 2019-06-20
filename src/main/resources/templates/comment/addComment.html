@@ -18,16 +18,18 @@
 	<div class="container" layout:fragment="content">
 		<div class="alert alert-info">
 			<h2>Create Comment</h2><hr>
-			<a class="btn btn-primary" href="/posts">Return Back</a>
+			<a class="btn btn-primary" th:href="@{'/posts/' + ${postId} + '/comments'}">Return Back</a>
 		</div>
 
 		<form action="/comment/save" th:object="${newComment}" method="post">
 
 			<div class="form-group">
-				<label>Description: </label> <textarea cols="80" rows="10"  class="form-control" th:field="*{description}" placeholder="Enter Your Comment"/>
+				<label>Description: </label> 
+				<textarea cols="80" rows="10"  class="form-control" th:field="*{description}" placeholder="Enter Your Comment"/>
+				<div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error" style="color: red; font-weight: bold; size: 24px">Comment Error></div>
 			</div>
 			<div class="pull-right">
-				<a href="/posts" class="btn btn-default">Cancel</a>
+				<a th:href="@{'/posts/' + ${postId} + '/comments'}" class="btn btn-default">Cancel</a>
 				<button type="submit" class="btn btn-primary" >Save</button>
 			</div>
 

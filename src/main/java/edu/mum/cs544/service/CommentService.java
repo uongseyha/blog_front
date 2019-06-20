@@ -31,8 +31,8 @@ public class CommentService implements ICommentService{
     }
 
     @Override
-    public List<Comment> getAll(long userId, int postId) {
-        ResponseEntity<List<Comment>> response = restTemplate.exchange(commentsAllUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<Comment>>() {},userId, postId);
+    public List<Comment> getAll() {
+        ResponseEntity<List<Comment>> response = restTemplate.exchange(commentsAllUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<Comment>>() {},1L, 1);
         return response.getBody();
     }
 
