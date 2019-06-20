@@ -4,7 +4,9 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import edu.mum.cs544.model.Comment;
+import edu.mum.cs544.model.Post;
 import edu.mum.cs544.service.ICommentService;
+import edu.mum.cs544.service.IPostService;
 import edu.mum.cs544.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,36 +23,41 @@ public class CommentController {
     @Autowired
     private ICommentService commentService;
 
+    @Autowired
+    private IPostService postService;
+
     @RequestMapping(value={"/posts/{postId}/comments"})
     public String getAll(@PathVariable int postId ,Model model, HttpSession session){
         User user = (User)session.getAttribute("user");
+        if (user != null && user.getEmail().equals("admin@mail.com"))
+            model.addAttribute("canEditAndDelete", true);
         session.setAttribute("post",postId);
         long userId = user.getId();
-      
-        if (user.getEmail().equals("admin@mail.com"))
-            model.addAttribute("comments",commentService.getAll(userId, postId));
-        else
-            model.addAttribute("comments",commentService.getByUserIdAndPostId(userId, postId));
+        Post post = postService.get(postId);
+        model.addAttribute("userId", user.getId());
+        model.addAttribute("post", post);
+        model.addAttribute("comments",commentService.getByUserIdAndPostId(userId, postId));
         return "/comment/commentList";
     }
 
     //==== 2. Create new Comment Form ====
     @RequestMapping(value={"/comment/add"},method= RequestMethod.GET)
-    public String AddComment(@ModelAttribute("newcomment") Comment comment, Model model, HttpSession session) {
+    public String AddComment(Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
             return "redirect:/login";
-
-        model.addAttribute("newComment", comment);
+        int postId = (int)session.getAttribute("post");
+        model.addAttribute("postId", postId);
+        model.addAttribute("newComment", new Comment());
         return "comment/addComment";
     }
 
     //==== 3. Save add new Comment ====
     @RequestMapping(value={"/comment/save"}, method = RequestMethod.POST)
-    public String saveComment(@Valid @ModelAttribute("newComment") Comment comment, Model model, HttpSession session, BindingResult result, RedirectAttributes attr) {
-            if (result.hasErrors()) {
+    public String saveComment(@Valid Comment comment, Model model, HttpSession session, BindingResult result, RedirectAttributes attr) {
+        if (result.hasErrors()) {
             attr.addFlashAttribute("org.springframework.validation.BindingResult.comment", result);
-            attr.addFlashAttribute("comment", comment);
-            return "redirect:/comment/addComment";
+            attr.addFlashAttribute("newComment", comment);
+            return "redirect:/comment/add";
         }
         long userId = ((User)session.getAttribute("user")).getId();
         int postId = (int)session.getAttribute("post");
@@ -69,12 +76,13 @@ public class CommentController {
         long userId = ((User)session.getAttribute("user")).getId();
         Comment comment = commentService.getByUserIdAndPostIdAndCommentId(userId, postId, id);
         model.addAttribute("comment", comment);
+        model.addAttribute("postId", postId);
         return "comment/editComment";
     }
 
     //=== 5. Save Edit ====
     @RequestMapping(value = "/comment/edit/save", method = RequestMethod.POST)
-    public String SaveEditComment(@ModelAttribute("comment") Comment comment, HttpSession session) {
+    public String SaveEditComment(@Valid Comment comment, HttpSession session,BindingResult result, RedirectAttributes attr) {
         int postId = (int)session.getAttribute("post");
         long userId = ((User)session.getAttribute("user")).getId();
         Comment entity= commentService.getByUserIdAndPostIdAndCommentId(userId, postId, comment.getId());

@@ -18,37 +18,39 @@
 
 	<div class="container" layout:fragment="content">
 		<div class="alert alert-info">
-			<h2>Comment List</h2>
+			<h2 th:text="${post.title}"></h2>
+			<h3 th:text="${post.description}"></h3>
 			<hr />
-			<a class="btn btn-primary" href="/comment/add">Create New Comment</a>
+            <h4 th:text="${post.text}"></h4>
 		</div>
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>ID</th>
-					<th>Description</th>
-					<th>Created Date</th>
-					<th>Action</th>
+					<th>Coments</th>
+					<th th:if="${canEditAndDelete}">Action</th>
 				</tr>
 			</thead>
 			<tbody th:each="comment : ${comments}">
 				<tr>
-					<td th:text="${comment.id}"></td>
-					<td th:text="${comment.description}"></td>
-					<th th:text="${#dates.format(comment.createDate, 'dd-MMM-yyyy')}"></th>
-					<td>
+					<td>User 
+						<div th:text="${comment.createdUserId}" th:remove="tag"></div>
+						<div th:text="${#dates.format(comment.createDate, 'dd-MMM-yyyy : hh:mm')}" style="font-weight: bold"></div>
+						<div th:text="${comment.description}"></div>
+					</td>
+					<td width="20">
 						<form>
-							<a class="btn btn-warning" th:href="@{'/comment/edit/' + ${comment.id}}">Edit</a>
+							<a class="btn btn-warning" th:href="@{'/comment/edit/' + ${comment.id}}"  th:if="${canEditAndDelete} or ${comment.createdUserId} == ${userId}">Edit</a>
 							<span>
-							<a class="btn btn-danger" th:href="@{'/comment/delete/' + ${comment.id}}"
-							   onclick="return confirm('Are you sure?')">Remove</a>
-						</span>
+								<a class="btn btn-danger" th:href="@{'/comment/delete/' + ${comment.id}}" th:if="${canEditAndDelete}"
+								onclick="return confirm('Are you sure?')">Remove</a>
+							</span>
 						</form>
 					</td>
 				</tr>
 			</tbody>
-
 		</table>
+
+		<a class="btn btn-primary" href="/comment/add">Create New Comment</a>
 
 	</div>
 
